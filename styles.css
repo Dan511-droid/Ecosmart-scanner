@@ -1,0 +1,90 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
+  color: #2e7d32;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.container {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: fadeSlide 0.8s ease;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #1b5e20;
+  margin-bottom: 10px;
+}
+
+header p {
+  color: #444;
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: #2e7d32;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 8px 5px;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  background-color: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.preview img, video {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 15px;
+  border: 2px solid #2e7d32;
+}
+
+canvas { display: none; }
+
+.desktop-buttons, .mobile-button {
+  margin-top: 15px;
+}
+
+/* Animation */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .desktop-buttons { display: none; }
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 601px) {
+  .mobile-button { display: none; }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSmart Waste Management System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>EcoSmart Waste Management</h1>
+      <p>Upload or capture an image of your waste to help classify it for recycling.</p>
+    </header>
+
+    <form id="uploadForm" method="POST" action="/classify" enctype="multipart/form-data">
+      <input type="file" id="fileInput" name="file" accept="image/*" style="display:none;">
+
+      <!-- Desktop buttons -->
+      <div class="desktop-buttons">
+        <button type="button" class="btn" onclick="document.getElementById('fileInput').click()">Upload Image</button>
+        <button type="button" class="btn" onclick="startCamera()">Capture Image</button>
+      </div>
+
+      <!-- Mobile button -->
+      <div class="mobile-button">
+        <button type="button" class="btn" onclick="document.getElementById('fileInput').click()">Upload or Take Photo</button>
+      </div>
+
+      <div class="preview">
+        <img id="previewImage" src="" alt="Image Preview" style="display:none;">
+      </div>
+
+      <button type="submit" class="btn">Classify Waste</button>
+
+      <!-- Camera Stream -->
+      <div id="cameraContainer" style="display:none;">
+        <video id="cameraStream" autoplay playsinline></video>
+        <button type="button" class="btn" onclick="captureFromCamera()">Take Photo</button>
+        <button type="button" class="btn" onclick="stopCamera()">Cancel</button>
+      </div>
+
+      <canvas id="canvas" style="display:none;"></canvas>
+    </form>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const previewImage = document.getElementById("previewImage");
+    const cameraContainer = document.getElementById("cameraContainer");
+    const cameraStream = document.getElementById("cameraStream");
+    const canvas = document.getElementById("canvas");
+    let videoStream = null;
+
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files && fileInput.files[0]) {
+        previewImage.src = URL.createObjectURL(fileInput.files[0]);
+        previewImage.style.display = "block";
+      }
+    });
+
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          videoStream = stream;
+          cameraStream.srcObject = stream;
+          cameraStream.setAttribute('playsinline', 'true');
+          cameraContainer.style.display = "block";
+          cameraStream.play();
+        })
+        .catch(err => alert("Camera not accessible: " + err));
+    }
+
+    function captureFromCamera() {
+      const context = canvas.getContext("2d");
+      canvas.width = cameraStream.videoWidth;
+      canvas.height = cameraStream.videoHeight;
+      context.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        const file = new File([blob], "captured_image.png", { type: "image/png" });
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files; // ✅ THIS updates the form’s input!
+
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
+
+        stopCamera();
+      }, "image/png");
+    }
+
+    function stopCamera() {
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+      }
+      cameraContainer.style.display = "none";
+    }
+  </script>
+</body>
+</html>

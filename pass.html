@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scan Complete - EcoSmart Waste Management</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='pass.css') }}">
+</head>
+
+<body>
+  <div class="pass-container">
+    <header class="project-header">
+      <h1>EcoSmart Waste Management</h1>
+      <p>
+        Empowering environmental sustainability through AI-powered smart waste classification.<br>
+        Help us by providing your feedback to make the system smarter.
+      </p>
+    </header>
+
+    <!-- Result Section -->
+    <section class="result-section fade-in">
+      <h2>Scan Complete!</h2>
+      <p>Your waste is classified as:</p>
+      <div class="result">{{ classification }}</div>
+    </section>
+
+    <!-- Uploaded Image Display -->
+    <div class="image-preview">
+      <img src="{{ url_for('dataset_file', category=image_category, filename=image_filename) }}" alt="Uploaded Image" class="uploaded-image">
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback fade-in">
+      <p>Was this classification correct?</p>
+      <div class="feedback-buttons">
+        <button class="feedback-btn" onclick="sendFeedback('yes')">✅ Yes</button>
+        <button class="feedback-btn" onclick="showCorrectionOptions()">❌ No</button>
+      </div>
+    </div>
+
+    <!-- Correction Options -->
+    <div class="correction-options fade-in" id="correctionOptions" style="display: none;">
+      <p>Select the correct category:</p>
+      <div class="feedback-buttons">
+        <button class="feedback-btn" onclick="sendFeedback('metal')">♻️ Metal</button>
+        <button class="feedback-btn" onclick="sendFeedback('organic')">🌱 Organic</button>
+        <button class="feedback-btn" onclick="sendFeedback('plastic')">🧴 Plastic</button>
+      </div>
+    </div>
+
+    <!-- Scan Another Button -->
+    <button class="scan-another fade-in" onclick="window.location.href='/'">🔄 Scan Another</button>
+  </div>
+
+  <script>
+    function showCorrectionOptions() {
+      document.querySelector('.feedback').style.display = 'none';
+      document.getElementById('correctionOptions').style.display = 'block';
+    }
+
+    function sendFeedback(feedback) {
+      const formData = new FormData();
+      formData.append("feedback", feedback);
+      formData.append("current_category", "{{ image_category }}");
+      formData.append("filename", "{{ image_filename }}");
+
+      fetch("/update_category", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.text())
+        .then(html => {
+          document.body.innerHTML = html;
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Error processing feedback.");
+        });
+    }
+  </script>
+</body>
+
+</html>

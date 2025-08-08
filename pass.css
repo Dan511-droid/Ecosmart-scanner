@@ -1,0 +1,144 @@
+/* static/pass.css */
+
+/* General Page Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #b2ebf2, #81d4fa);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Container Box */
+.pass-container {
+  background: white;
+  padding: 35px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeSlide 1s ease;
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header Section */
+.project-header {
+  margin-bottom: 20px;
+}
+.project-header h1 {
+  font-size: 2.2rem;
+  color: #0277bd;
+}
+.project-header p {
+  font-size: 1.1rem;
+  color: #01579b;
+}
+
+/* Result Section */
+.result-section h2 {
+  font-size: 2rem;
+  color: #00796b;
+  margin: 15px 0;
+}
+.result-section p {
+  font-size: 1.2rem;
+  color: #37474f;
+}
+.result {
+  font-size: 2rem;
+  color: #d81b60;
+  margin: 10px 0 20px;
+  animation: glow 1.5s infinite alternate;
+}
+
+/* Uploaded Image */
+.image-preview {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.uploaded-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #0288d1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Feedback Buttons */
+.feedback, .correction-options {
+  margin: 20px 0;
+}
+.feedback p, .correction-options p {
+  font-size: 1.2rem;
+  color: #37474f;
+}
+
+.feedback-btn {
+  background-color: #0288d1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.feedback-btn:hover {
+  background-color: #0277bd;
+  transform: scale(1.05);
+}
+
+/* Scan Another Button */
+.scan-another {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.scan-another:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #d81b60; }
+  to { text-shadow: 0 0 20px #d81b60; }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .pass-container {
+    padding: 20px;
+  }
+  .project-header h1 {
+    font-size: 1.8rem;
+  }
+  .project-header p, .feedback p, .correction-options p {
+    font-size: 1rem;
+  }
+  .result {
+    font-size: 1.7rem;
+  }
+  .feedback-btn, .scan-another {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+  }
+}
